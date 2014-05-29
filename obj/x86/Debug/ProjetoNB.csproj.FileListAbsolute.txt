@@ -1,0 +1,4 @@
+D:\Projetos\IA\Tarefa NB\ProjetoNB\ProjetoNB\bin\Debug\ProjetoNB.exe
+D:\Projetos\IA\Tarefa NB\ProjetoNB\ProjetoNB\bin\Debug\ProjetoNB.pdb
+D:\Projetos\IA\Tarefa NB\ProjetoNB\ProjetoNB\obj\x86\Debug\ProjetoNB.exe
+D:\Projetos\IA\Tarefa NB\ProjetoNB\ProjetoNB\obj\x86\Debug\ProjetoNB.pdb
