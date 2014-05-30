@@ -7,18 +7,14 @@ using ProtoBuf;
 namespace ProjetoNB
 {
     [ProtoContract]
-    class Text
+    class Database
     {
         [ProtoMember(1)]
-        public List<Word> words;
+        public FileCategory positivos;
         [ProtoMember(2)]
-        public String fileName;
+        public FileCategory negativos;
 
-        public Text()
-        {
-            fileName = String.Empty;
-            words = new List<Word>();
-        }
-
+        [ProtoMember(3)]
+        public List<Word> distinctWords;
     }
 }

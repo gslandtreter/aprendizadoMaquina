@@ -2,3 +2,8 @@ D:\Projetos\IA\Tarefa NB\ProjetoNB\ProjetoNB\bin\Debug\ProjetoNB.exe
 D:\Projetos\IA\Tarefa NB\ProjetoNB\ProjetoNB\bin\Debug\ProjetoNB.pdb
 D:\Projetos\IA\Tarefa NB\ProjetoNB\ProjetoNB\obj\x86\Debug\ProjetoNB.exe
 D:\Projetos\IA\Tarefa NB\ProjetoNB\ProjetoNB\obj\x86\Debug\ProjetoNB.pdb
+D:\Projetos\IA\Tarefa NB\ProjetoNB\ProjetoNB\obj\x86\Debug\ProjetoNB.csprojResolveAssemblyReference.cache
+D:\Projetos\IA\Tarefa NB\ProjetoNB\ProjetoNB\bin\Debug\ProjetoNB.exe.config
+D:\Projetos\IA\Tarefa NB\ProjetoNB\ProjetoNB\bin\Debug\protobuf-net.dll
+D:\Projetos\IA\Tarefa NB\ProjetoNB\ProjetoNB\bin\Debug\protobuf-net.pdb
+D:\Projetos\IA\Tarefa NB\ProjetoNB\ProjetoNB\bin\Debug\protobuf-net.xml
