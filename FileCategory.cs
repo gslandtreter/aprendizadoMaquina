@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using ProtoBuf;
@@ -12,12 +13,17 @@ namespace ProjetoNB
         [ProtoMember(1)]
         public List<Text> files;
         [ProtoMember(2)]
-        public List<Word> distinctWords;
+        public Hashtable distinctWords;
+        [ProtoMember(3)]
+        public int wordCount;
+        [ProtoMember(4)]
+        public float probability;
 
         public FileCategory()
         {
             files = new List<Text>();
-            distinctWords = new List<Word>();
+            distinctWords = new Hashtable();
+
         }
 
         public int getFileCount()
@@ -27,7 +33,7 @@ namespace ProjetoNB
             else return 0;
         }
 
-        public int getWordCount()
+        public int getDistinctWordCount()
         {
             if (distinctWords != null)
                 return distinctWords.Count;
@@ -40,17 +46,27 @@ namespace ProjetoNB
 
             foreach (Text text in files)
             {
-                foreach (Word word in text.words)
+                foreach (DictionaryEntry word in text.words)
                 {
-                    Word wordFound = distinctWords.Find(match => match.wordText.Equals(word.wordText));
-                    if (wordFound != null)
-                        wordFound.countInText += word.countInText;
+                    if (distinctWords.ContainsKey(word.Key))
+                    {
+                        Word wordFound = (Word)distinctWords[word.Key];
+                        wordFound.countInText += ((Word)word.Value).countInText;
+                    }
                     else
                     {
-                        distinctWords.Add(word);
+                        distinctWords.Add(word.Key, word.Value);
                     }
                 }
             }
+        }
+
+        public int getWordCount(string word)
+        {
+            if (distinctWords.ContainsKey(word))
+                return ((Word)distinctWords[word]).countInText;
+
+            else return 0;
         }
     }
 }

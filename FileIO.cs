@@ -36,10 +36,9 @@ namespace ProjetoNB
             {
                 if (word.Length > 0)
                 {
-                    Word wordFound = newText.words.Find(match => match.wordText.Equals(word));
-
-                    if (wordFound != null)
+                    if (newText.words.ContainsKey(word))
                     {
+                        Word wordFound = (Word)newText.words[word];
                         wordFound.countInText++;
                     }
                     else
@@ -49,10 +48,11 @@ namespace ProjetoNB
                         newWord.countInText = 1;
                         newWord.wordText = word;
 
-                        newText.words.Add(newWord);
+                        newText.words.Add(word, newWord);
                     }
                 }
 
+                newText.wordCount++;
             }
 
             return newText;
@@ -68,7 +68,10 @@ namespace ProjetoNB
                 Text newFile = loadFile(fileName);
 
                 if (newFile != null)
+                {
                     newCategory.files.Add(newFile);
+                    newCategory.wordCount += newFile.wordCount;
+                }
             }
 
             return newCategory;

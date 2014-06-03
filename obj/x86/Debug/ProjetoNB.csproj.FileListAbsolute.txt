@@ -7,3 +7,12 @@ D:\Projetos\IA\Tarefa NB\ProjetoNB\ProjetoNB\bin\Debug\ProjetoNB.exe.config
 D:\Projetos\IA\Tarefa NB\ProjetoNB\ProjetoNB\bin\Debug\protobuf-net.dll
 D:\Projetos\IA\Tarefa NB\ProjetoNB\ProjetoNB\bin\Debug\protobuf-net.pdb
 D:\Projetos\IA\Tarefa NB\ProjetoNB\ProjetoNB\bin\Debug\protobuf-net.xml
+D:\Gustavo\Documentos\GitHub\aprendizadoMaquina\bin\Debug\ProjetoNB.exe.config
+D:\Gustavo\Documentos\GitHub\aprendizadoMaquina\obj\x86\Debug\ProjetoNB.exe
+D:\Gustavo\Documentos\GitHub\aprendizadoMaquina\obj\x86\Debug\ProjetoNB.pdb
+D:\Gustavo\Documentos\GitHub\aprendizadoMaquina\bin\Debug\ProjetoNB.exe
+D:\Gustavo\Documentos\GitHub\aprendizadoMaquina\bin\Debug\ProjetoNB.pdb
+D:\Gustavo\Documentos\GitHub\aprendizadoMaquina\bin\Debug\protobuf-net.dll
+D:\Gustavo\Documentos\GitHub\aprendizadoMaquina\bin\Debug\protobuf-net.pdb
+D:\Gustavo\Documentos\GitHub\aprendizadoMaquina\bin\Debug\protobuf-net.xml
+D:\Gustavo\Documentos\GitHub\aprendizadoMaquina\obj\x86\Debug\ProjetoNB.csprojResolveAssemblyReference.cache

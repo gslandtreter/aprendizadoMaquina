@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using ProtoBuf;
@@ -9,24 +10,34 @@ namespace ProjetoNB
     [ProtoContract]
     class Word
     {
-        [ProtoMember(1)]
+
         public String wordText;
-        [ProtoMember(2)]
+
         public int countInText;
 
-        public static List<Word> getTotalWordData(FileCategory cat1, FileCategory cat2)
+        public float probabilityPos;
+        public float probabilityNeg;
+
+        public Word()
         {
-            List<Word> totalWordList = new List<Word>(cat1.distinctWords);
+            countInText = 0;
+            probabilityPos = probabilityNeg = 0;
+        }
 
-            foreach (Word newWord in cat2.distinctWords)
+        public static Hashtable getTotalWordData(FileCategory cat1, FileCategory cat2)
+        {
+            Hashtable totalWordList = (Hashtable)cat1.distinctWords.Clone();
+
+            foreach (DictionaryEntry newWord in cat2.distinctWords)
             {
-                Word wordMatch = totalWordList.Find(match => match.wordText.Equals(newWord.wordText));
-
-                if (wordMatch != null)
-                    wordMatch.countInText += newWord.countInText;
+                if (totalWordList.ContainsKey(newWord.Key))
+                {
+                    Word wordMatch = (Word)totalWordList[newWord.Key];
+                    wordMatch.countInText += ((Word)newWord.Value).countInText;
+                }
                 else
                 {
-                    totalWordList.Add(newWord);
+                    totalWordList.Add(newWord.Key, newWord.Value);
                 }
             }
 

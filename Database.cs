@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using ProtoBuf;
@@ -15,6 +16,6 @@ namespace ProjetoNB
         public FileCategory negativos;
 
         [ProtoMember(3)]
-        public List<Word> distinctWords;
+        public Hashtable distinctWords;
     }
 }
