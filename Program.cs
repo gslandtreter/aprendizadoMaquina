@@ -11,10 +11,10 @@ namespace ProjetoNB
     {
         static Database fullDatabase;
 
-        static void CarregaArquivos()
+        static void CarregaArquivos(int min, int max)
         {
-            fullDatabase.positivos = FileIO.loadFilesFromDirectory("..\\..\\..\\positivo");
-            fullDatabase.negativos = FileIO.loadFilesFromDirectory("..\\..\\..\\negativo");
+            fullDatabase.positivos = FileIO.loadFilesFromDirectory("..\\..\\..\\positivo", min, max);
+            fullDatabase.negativos = FileIO.loadFilesFromDirectory("..\\..\\..\\negativo", min, max);
 
             fullDatabase.positivos.countDistinctWords();
             fullDatabase.negativos.countDistinctWords();
@@ -41,6 +41,12 @@ namespace ProjetoNB
 
                 int negativasCount = fullDatabase.negativos.getWordCount((String)palavraDistinita.Key);
                 ((Word)palavraDistinita.Value).probabilityNeg = (float)(negativasCount + 1) / (distintasNegativas + vocabularyCount);
+
+
+                if (negativasCount > positivasCount && positivasCount > 0)
+                {
+                    Console.WriteLine("LOL");
+                }
             }
         }
         static void Main(string[] args)
@@ -48,12 +54,27 @@ namespace ProjetoNB
 
             fullDatabase = new Database();
 
-            CarregaArquivos();
+            CarregaArquivos(18, 217);
 
             Console.WriteLine("Arquivos positivos: {0} - Palavras: {1} - Distintas: {2}", fullDatabase.positivos.getFileCount(), fullDatabase.positivos.wordCount, fullDatabase.positivos.getDistinctWordCount());
             Console.WriteLine("Arquivos negativos: {0} - Palavras: {1} - Distintas: {2}", fullDatabase.negativos.getFileCount(), fullDatabase.negativos.wordCount, fullDatabase.negativos.getDistinctWordCount());
 
             Aprende();
+
+
+            for (int i = 50; i < 200; i++)
+            {
+                Console.WriteLine("Classificando texto " + i);
+
+                Text testeTextoPos = FileIO.loadFile("..\\..\\..\\positivo\\" + i + ".txt");
+                Text testeTextoNeg = FileIO.loadFile("..\\..\\..\\negativo\\" + i + ".txt");
+
+                testeTextoPos.Classify(fullDatabase);
+                testeTextoNeg.Classify(fullDatabase);
+
+                Console.WriteLine("Positivo: " + testeTextoPos.classType);
+                Console.WriteLine("Negativo: " + testeTextoNeg.classType);
+            }
 
             Console.ReadKey();
         }

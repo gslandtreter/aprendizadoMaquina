@@ -76,5 +76,30 @@ namespace ProjetoNB
 
             return newCategory;
         }
+
+        public static FileCategory loadFilesFromDirectory(String path, int min, int max)
+        {
+            FileCategory newCategory = new FileCategory();
+            string[] files = Directory.GetFiles(path, "*.txt");
+
+            foreach (String fileName in files)
+            {
+                int fileNum = Convert.ToInt32(Path.GetFileNameWithoutExtension(fileName));
+
+                if (fileNum >= min && fileNum <= max)
+                {
+                    Text newFile = loadFile(fileName);
+
+                    if (newFile != null)
+                    {
+                        newCategory.files.Add(newFile);
+                        newCategory.wordCount += newFile.wordCount;
+                    }
+                }
+                
+            }
+
+            return newCategory;
+        }
     }
 }

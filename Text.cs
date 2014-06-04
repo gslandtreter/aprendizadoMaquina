@@ -3,28 +3,42 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.Text;
-using ProtoBuf;
 
 namespace ProjetoNB
 {
-    [ProtoContract]
     class Text
     {
-        [ProtoMember(1)]
         public Hashtable words;
-        [ProtoMember(2)]
         public String fileName;
-        [ProtoMember(3)]
         public int wordCount;
-        [ProtoMember(4)]
-        public float probability;
+
+        public String classType;
 
         public Text()
         {
-            fileName = String.Empty;
+            fileName = classType = String.Empty;
             words = new Hashtable();
             wordCount = 0;
-            probability = 0;
+        }
+
+        public void Classify(Database database)
+        {
+            double probPos = Math.Log(database.positivos.probability);
+            double probNeg = Math.Log(database.negativos.probability);
+
+            foreach (DictionaryEntry palavra in words)
+            {
+                if (database.distinctWords.ContainsKey(palavra.Key)) //Palavra existe no vocabulario
+                {
+                    probPos += Math.Log(((Word)database.distinctWords[palavra.Key]).probabilityPos);
+                    probNeg += Math.Log(((Word)database.distinctWords[palavra.Key]).probabilityNeg);
+                }
+            }
+
+            if (probPos >= probNeg)
+                classType = "Positivo";
+            else
+                classType = "Negativo";
         }
 
     }
