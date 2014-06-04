@@ -55,7 +55,11 @@ namespace ProjetoNB
                     }
                     else
                     {
-                        distinctWords.Add(word.Key, word.Value);
+                        Word buffer = new Word();
+                        buffer.wordText = ((Word)word.Value).wordText;
+                        buffer.countInText = ((Word)word.Value).countInText;
+
+                        distinctWords.Add(word.Key, buffer);
                     }
                 }
             }

@@ -37,16 +37,11 @@ namespace ProjetoNB
             foreach (DictionaryEntry palavraDistinita in fullDatabase.distinctWords)
             {
                 int positivasCount = fullDatabase.positivos.getWordCount((String)palavraDistinita.Key);
+
                 ((Word)palavraDistinita.Value).probabilityPos = (float)(positivasCount + 1) / (distintasPositivas + vocabularyCount);
 
                 int negativasCount = fullDatabase.negativos.getWordCount((String)palavraDistinita.Key);
                 ((Word)palavraDistinita.Value).probabilityNeg = (float)(negativasCount + 1) / (distintasNegativas + vocabularyCount);
-
-
-                if (negativasCount > positivasCount && positivasCount > 0)
-                {
-                    Console.WriteLine("LOL");
-                }
             }
         }
         static void Main(string[] args)
@@ -61,8 +56,7 @@ namespace ProjetoNB
 
             Aprende();
 
-
-            for (int i = 50; i < 200; i++)
+            for (int i = 0; i < 18; i++)
             {
                 Console.WriteLine("Classificando texto " + i);
 

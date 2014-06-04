@@ -30,8 +30,9 @@ namespace ProjetoNB
             {
                 if (database.distinctWords.ContainsKey(palavra.Key)) //Palavra existe no vocabulario
                 {
-                    probPos += Math.Log(((Word)database.distinctWords[palavra.Key]).probabilityPos);
-                    probNeg += Math.Log(((Word)database.distinctWords[palavra.Key]).probabilityNeg);
+                    Word dictionaryWord = ((Word)database.distinctWords[palavra.Key]);
+                    probPos += ((Word)palavra.Value).countInText * Math.Log(dictionaryWord.probabilityPos);
+                    probNeg += ((Word)palavra.Value).countInText * Math.Log(dictionaryWord.probabilityNeg);
                 }
             }
 
