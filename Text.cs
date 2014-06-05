@@ -21,7 +21,7 @@ namespace ProjetoNB
             wordCount = 0;
         }
 
-        public void Classify(Database database)
+        public void classify(Database database)
         {
             double probPos = Math.Log(database.positivos.probability);
             double probNeg = Math.Log(database.negativos.probability);

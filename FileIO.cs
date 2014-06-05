@@ -58,6 +58,18 @@ namespace ProjetoNB
             return newText;
         }
 
+        public static Text loadPositiveFile(int fileNum)
+        {
+            String path = "..\\..\\..\\positivo\\" + fileNum + ".txt";
+            return loadFile(path);
+        }
+
+        public static Text loadNegativeFile(int fileNum)
+        {
+            String path = "..\\..\\..\\negativo\\" + fileNum + ".txt";
+            return loadFile(path);
+        }
+
         public static FileCategory loadFilesFromDirectory(String path)
         {
             FileCategory newCategory = new FileCategory();
@@ -77,7 +89,7 @@ namespace ProjetoNB
             return newCategory;
         }
 
-        public static FileCategory loadFilesFromDirectory(String path, int min, int max)
+        public static FileCategory loadFilesFromDirectory(String path, int min, int max, int testBegin, int testEnd)
         {
             FileCategory newCategory = new FileCategory();
             string[] files = Directory.GetFiles(path, "*.txt");
@@ -88,6 +100,9 @@ namespace ProjetoNB
 
                 if (fileNum >= min && fileNum <= max)
                 {
+                    if (fileNum >= testBegin && fileNum <= testEnd)
+                        continue;
+
                     Text newFile = loadFile(fileName);
 
                     if (newFile != null)

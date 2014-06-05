@@ -9,66 +9,89 @@ namespace ProjetoNB
 {
     class Program
     {
-        static Database fullDatabase;
+        static Database[] dataBases = new Database[10];
 
-        static void CarregaArquivos(int min, int max)
-        {
-            fullDatabase.positivos = FileIO.loadFilesFromDirectory("..\\..\\..\\positivo", min, max);
-            fullDatabase.negativos = FileIO.loadFilesFromDirectory("..\\..\\..\\negativo", min, max);
+        static List<Text>[] positivos = new List<Text>[10];
+        static List<Text>[] negativos = new List<Text>[10];
 
-            fullDatabase.positivos.countDistinctWords();
-            fullDatabase.negativos.countDistinctWords();
-
-            fullDatabase.distinctWords = Word.getTotalWordData(fullDatabase.positivos, fullDatabase.negativos);
-        }
-
-        static void Aprende()
-        {
-            int totalFiles = fullDatabase.negativos.files.Count + fullDatabase.positivos.files.Count;
-
-            fullDatabase.positivos.probability = (float)fullDatabase.positivos.files.Count / totalFiles;
-            fullDatabase.negativos.probability = (float)fullDatabase.negativos.files.Count / totalFiles;
-
-            int vocabularyCount = fullDatabase.positivos.getDistinctWordCount() + fullDatabase.negativos.getDistinctWordCount();
-
-            int distintasPositivas = fullDatabase.positivos.getDistinctWordCount();
-            int distintasNegativas = fullDatabase.negativos.getDistinctWordCount();
-
-            foreach (DictionaryEntry palavraDistinita in fullDatabase.distinctWords)
-            {
-                int positivasCount = fullDatabase.positivos.getWordCount((String)palavraDistinita.Key);
-
-                ((Word)palavraDistinita.Value).probabilityPos = (float)(positivasCount + 1) / (distintasPositivas + vocabularyCount);
-
-                int negativasCount = fullDatabase.negativos.getWordCount((String)palavraDistinita.Key);
-                ((Word)palavraDistinita.Value).probabilityNeg = (float)(negativasCount + 1) / (distintasNegativas + vocabularyCount);
-            }
-        }
+        static Statistics[] parciais = new Statistics[10];
+        static Statistics resultado = new Statistics();
+        
         static void Main(string[] args)
         {
+            int baseMin = 18;
 
-            fullDatabase = new Database();
-
-            CarregaArquivos(18, 217);
-
-            Console.WriteLine("Arquivos positivos: {0} - Palavras: {1} - Distintas: {2}", fullDatabase.positivos.getFileCount(), fullDatabase.positivos.wordCount, fullDatabase.positivos.getDistinctWordCount());
-            Console.WriteLine("Arquivos negativos: {0} - Palavras: {1} - Distintas: {2}", fullDatabase.negativos.getFileCount(), fullDatabase.negativos.wordCount, fullDatabase.negativos.getDistinctWordCount());
-
-            Aprende();
-
-            for (int i = 0; i < 18; i++)
+            for (int i = 0; i < 10; i++)
             {
-                Console.WriteLine("Classificando texto " + i);
+                int testeMin =  baseMin + (i * 20);
+                int testeMax =  testeMin + 19;
 
-                Text testeTextoPos = FileIO.loadFile("..\\..\\..\\positivo\\" + i + ".txt");
-                Text testeTextoNeg = FileIO.loadFile("..\\..\\..\\negativo\\" + i + ".txt");
+                Console.WriteLine("Carregando database {0} [{1}-{2}]", i + 1, testeMin, testeMax);
 
-                testeTextoPos.Classify(fullDatabase);
-                testeTextoNeg.Classify(fullDatabase);
+                dataBases[i] = new Database();
+                dataBases[i].carregaArquivos(18, 217, testeMin, testeMax);
 
-                Console.WriteLine("Positivo: " + testeTextoPos.classType);
-                Console.WriteLine("Negativo: " + testeTextoNeg.classType);
+                Console.WriteLine("Arquivos positivos: {0} - Palavras: {1} - Distintas: {2}", dataBases[i].positivos.getFileCount(), dataBases[i].positivos.wordCount, dataBases[i].positivos.getDistinctWordCount());
+                Console.WriteLine("Arquivos negativos: {0} - Palavras: {1} - Distintas: {2}", dataBases[i].negativos.getFileCount(), dataBases[i].negativos.wordCount, dataBases[i].negativos.getDistinctWordCount());
+
+                dataBases[i].aprende();
+
+                //Carrega arquivos de teste
+
+                positivos[i] = new List<Text>();
+                negativos[i] = new List<Text>();
+
+                for (int n = testeMin; n < testeMax + 1; n++)
+                {
+                    positivos[i].Add(FileIO.loadPositiveFile(n));
+                    negativos[i].Add(FileIO.loadNegativeFile(n));
+                }
             }
+
+            for (int i = 0; i < 10; i++)
+            {
+                parciais[i] = new Statistics();
+
+                foreach (Text texto in positivos[i])
+                {
+                    texto.classify(dataBases[i]);
+
+                    if (texto.classType.Equals("Positivo"))
+                    {
+                        resultado.truePos++;
+                        parciais[i].truePos++;
+                    }
+                    else
+                    {
+                        resultado.falseNeg++;
+                        parciais[i].falseNeg++;
+                    }
+                }
+
+                foreach (Text texto in negativos[i])
+                {
+                    texto.classify(dataBases[i]);
+
+                    if (texto.classType.Equals("Negativo"))
+                    {
+                        resultado.trueNeg++;
+                        parciais[i].trueNeg++;
+                    }
+                    else
+                    {
+                        resultado.falsePos++;
+                        parciais[i].falsePos++;
+                    }
+                }
+
+                Console.WriteLine("Database [{0}] - Matriz de Confusao: ", i + 1);
+                parciais[i].calcula();
+                parciais[i].imprime();
+            }
+
+            Console.WriteLine("Resultado Final:");
+            resultado.calcula();
+            resultado.imprime();
 
             Console.ReadKey();
         }
